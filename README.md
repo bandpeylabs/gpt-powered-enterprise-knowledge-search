@@ -4,12 +4,29 @@ This section contains code for various demos useful for many enterprise applicat
 
 ## Projects
 
-1. [Assistant Demo](./assistant-demo/README.∂)
-1. [Vision Demo](./vision-demo/README.∂)
+1. [Assistant Demo](./assistant-demo/README.md)
+1. [Vision Demo](./vision-demo/README.md)
+
+## SetUp
+
+### Azure SetUp
+
+An Azure subscription does not come by default with Azure Open AI enabled, you must request this for your organization and after the request was approved you can access Azure Open AI
+
+1. Head over to azure portal and type in search bar `Azure Open AI`
+2. Hit the `Create` button and fill out the form
+   ```
+   Resource Group: rg-<project name>-oai-dev
+   Region: East US
+   Name: oai-<project name>-dev
+   Pricing Tier: Standard S0
+   ```
+3. Once resource was created, head over to resource and start by creating a deployment. Depending to the project a different model must be used, select any model for this step deployment name: `depl-<project name>-dev`
+4. Head over to assistant playground and start chatting, your all set
 
 ## Environment SetUp
 
-Due to frequent updates from LangChain and OpenAI, we'll use Pipenv to enforce specific software versions for stability and reproducibility in our projects. Ensure you follow the setup steps closely. Ignore deprecation warnings for LangChain versions 0.1.0 and 0.2.0, as they are not part of our current implementation.
+Due to frequent updates from Azure OpenAI, we'll use Pipenv to enforce specific software versions for stability and reproducibility in our projects. Ensure you follow the setup steps closely.
 
 ### Python Version
 
