@@ -28,7 +28,8 @@ An Azure subscription does not come by default with Azure Open AI enabled, you m
 
 Assign the Cognitive Services User role to your user account. This can be done in the Azure portal under Access control (IAM) > Add role assignment.
 
-Retrieve key and endpoint
+#### Retrieve key and endpoint
+
 To successfully make a call against the Azure OpenAI service, you'll need the following:
 
 | Variable name     | Value                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
@@ -36,6 +37,36 @@ To successfully make a call against the Azure OpenAI service, you'll need the fo
 | `ENDPOINT`        | This value can be found in the Keys and Endpoint section when examining your resource from the Azure portal. Alternatively, you can find the value in Azure OpenAI Studio > Playground > View code. An example endpoint is: https://docs-test-001.openai.azure.com/.                                                                                                                                                                                                                                                                                                                                                              |
 | `API-KEY`         | This value can be found in the Keys and Endpoint section when examining your resource from the Azure portal. You can use either KEY1 or KEY2.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |
 | `DEPLOYMENT-NAME` | This value will correspond to the custom name you chose for your deployment when you deployed a model. This value can be found under Resource Management > Model Deployments in the Azure portal or alternatively under Management > Deployments in Azure OpenAI Studio. Go to your resource in the Azure portal. The Keys and Endpoint can be found in the Resource Management section. Copy your endpoint and access key as you'll need both for authenticating your API calls. You can use either KEY1 or KEY2. Always having two keys allows you to securely rotate and regenerate keys without causing a service disruption. |
+
+Create a `.env` file in the root directory of the project folder as follows and paste the values you have copied from the portal:
+
+```bash
+AZURE_OPENAI_ENDPOINT=https://example.azure.com/
+AZURE_OPENAI_API_KEY=XXX
+DEPLOYMENT_NAME=depl-devssistant-dev
+```
+
+## Create Deployment
+
+Head over to Azure OpenAI Studio, under the management section select deployment and click create a new deployment with the following values:
+
+| Name                         | Value             | Description                                                                                                                                                                                                                                                                                                                                                                                          |
+| ---------------------------- | ----------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Model                        | gpt-4             | Select a provided base model                                                                                                                                                                                                                                                                                                                                                                         |
+| Model Version                | 2024-05-13        | Control model updates to test for consistent model performance for your use case prior to upgrade.                                                                                                                                                                                                                                                                                                   |
+| Deployment type              | Standard          | Standard: Pay per API call, with lower rate limits. Adheres to Azure data residency promises. Best for intermittent workloads with low to medium volume.<br>Global-Standard: Pay per API call with higher rate limits. Traffic is routed globally and does not adhere to Azure data residency promises. Recommended starting point for most scenarios except those with data residency requirements. |
+| Deployment name              | depl-asistant-dev | Give your deployment a memorable name (2-64 characters)                                                                                                                                                                                                                                                                                                                                              |
+| Tokens per Minute Rate Limit | 50K               | Assign TPM from your quota to set the rate limits for your deployment - Corresponding requests per minute (RPM) = 60                                                                                                                                                                                                                                                                                 |
+
+## Create Assistant
+
+Head over to Azure OpenAI Studio, under the assistants section, and create a new assistant with the following values:
+
+| Name             | Value                                                                        | Description                                                                                                                                                                                                                                                                                                                                                                                           |
+| ---------------- | ---------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Assistant name   | sarcastic-chat                                                               | Your deployment name that is associated with a specific model.                                                                                                                                                                                                                                                                                                                                        |
+| Instructions     | `No matter what was the question, answer sarcastically and make fun of user` | Instructions are similar to system messages. This is where you give the model guidance about how it should behave and any context it should reference when generating a response. You can describe the assistant's personality, tell it what it should and shouldn't answer, and tell it how to format responses. You can also provide examples of the steps it should take when answering responses. |
+| Code interpreter | `Off`                                                                        | Code interpreter provides access to a sandboxed Python environment that can be used to allow the model to test and execute code.                                                                                                                                                                                                                                                                      |
 
 ## Environment Setup
 
